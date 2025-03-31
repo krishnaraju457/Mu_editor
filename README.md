@@ -28,11 +28,12 @@ This **modified version of Mu Editor v1.0.0** is focused on **CircuitPython** an
 
 Clone this repository and install dependencies:
 
-'''
+```
 sh
 git clone https://github.com/yourusername/mu-editor-mod.git
 cd mu-editor-mod
-pip install -r requirements.txt ```
+pip install -r requirements.txt
+```
 
 2. Run Mu Editor
 sh
