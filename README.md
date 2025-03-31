@@ -1,6 +1,6 @@
 # Mu Editor (CircuitPython Custom Edition)
 
-![Mu Editor Logo](https://raw.githubusercontent.com/mu-editor/mu/main/docs/images/mu-logo.png)
+![Mu Editor Logo](https://codewith.mu/img/brand.png)
 
 Mu Editor is a simple Python code editor for beginners, originally designed for microcontroller programming with **CircuitPython**, **MicroPython**, and **Python projects**.
 
