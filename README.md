@@ -55,8 +55,7 @@ pip install -r requirements.txt
 
 ## 🖼️ Screenshots
 
-*(Add screenshots of your modified UI, library manager, and board info section here.)*
-
+images/board_info.png
 ---
 
 ## 🤝 Contributing
