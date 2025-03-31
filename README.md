@@ -1,24 +1,38 @@
 # Mu_editor
-Mu Editor (Modified Version)
+# Mu Editor (CircuitPython Custom Edition)
 
-Mu Editor is a simple Python code editor for beginners, originally designed for microcontroller programming with CircuitPython, MicroPython, and Python projects. This modified version extends Mu Editor v1.0.0 with additional features for enhanced functionality.
+![Mu Editor Logo](https://raw.githubusercontent.com/mu-editor/mu/main/docs/images/mu-logo.png)
 
-New Features in This Version
-🔹 GTTS Integration – Added Google Text-to-Speech (gTTS) for generating speech from text.
-🔹 New Menu Options – Improved the menu bar with additional functionalities.
-🔹 Board Information – Easily retrieve and display microcontroller board details.
-🔹 Library Manager – Integrated a custom library manager to search, install, and manage CircuitPython libraries.
+Mu Editor is a simple Python code editor for beginners, originally designed for microcontroller programming with **CircuitPython, MicroPython,** and **Python projects.**
 
-Installation
-1. Download and Install
+This **modified version of Mu Editor v1.0.0** is focused on **CircuitPython** and includes additional features to improve development.
+
+> **⚠️ Disclaimer:**  
+> I'm **not an expert programmer**—I just made this work for CircuitPython! My coding style might not be perfect, so please **don’t hate me** for it. 😅  
+> If you have improvements, feel free to contribute!
+
+---
+
+## ✨ New Features in This Version
+
+- **🔊 GTTS Integration** – Convert text to speech using Google Text-to-Speech (gTTS).  
+- **📂 New Menu Options** – Added extra functionalities to the menu bar.  
+- **🖥️ Board Information** – Easily check microcontroller details like RAM and storage.  
+- **📚 Library Manager** – Search, install, and manage CircuitPython libraries.  
+
+---
+
+## 📥 Installation
+
+### 1️⃣ Download and Install
+
 Clone this repository and install dependencies:
 
-sh
-Copy
-Edit
+```sh
 git clone https://github.com/yourusername/mu-editor-mod.git
 cd mu-editor-mod
 pip install -r requirements.txt
+
 2. Run Mu Editor
 sh
 Copy
