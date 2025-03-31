@@ -56,6 +56,7 @@ pip install -r requirements.txt
 ## 🖼️ Screenshots
 
 images/board_info.png
+![Alt text](relative%20path/images/board_info.png?raw=true "Title")
 ---
 
 ## 🤝 Contributing
