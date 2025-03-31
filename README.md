@@ -49,7 +49,7 @@ pip install -r requirements.txt
 - Automatically cleans up unnecessary files after extraction.
 
 **📌 Board Information**  
-- Displays detailed info such as RAM, Flash Storage, and available memory of the connected CircuitPython board for easier debugging and memory management.
+- Displays detailed info of the connected CircuitPython board.
 
 ---
 
