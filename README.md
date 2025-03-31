@@ -57,6 +57,7 @@ pip install -r requirements.txt
 
 images/board_info.png
 ![Alt text](relative%20path/images/board_info.png?raw=true "Title")
+![What is this](images/board_info.png)
 ---
 
 ## 🤝 Contributing
