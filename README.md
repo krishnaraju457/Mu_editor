@@ -55,7 +55,8 @@ pip install -r requirements.txt
 
 ## 🖼️ Screenshots
 
-<img src="images/board_info.png" width="300" height="100"/>
+<img src="images/board_info.png" width="300" height="300"/>
+<img src="images/library_manager.png" width="300" height="300"/>
 
 ---
 
