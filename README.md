@@ -68,4 +68,4 @@ I know my code might not be the best, but if you like the idea and want to help 
 
 ## 📜 License
 
-This project follows the original Mu Editor license.
+This project follows the original Mu Editor <a href=LICENSE>license<a>.
