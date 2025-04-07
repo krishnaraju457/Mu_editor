@@ -1,0 +1,11 @@
+include mu/*
+include README.rst
+include CHANGES.rst
+include LICENSE
+include conf/*
+include mu/resources/css/*
+include mu/resources/images/*
+include mu/resources/fonts/*
+include mu/resources/pygamezero/*
+include run.py
+recursive-include mu/locale *

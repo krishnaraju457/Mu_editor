@@ -1,0 +1,92 @@
+# Travis can building for Linux and macOS
+matrix:
+  include:
+    # To maximise compatibility pick earliest image, Ubuntu 14.04.5 x64
+    - os: linux
+      dist: trusty
+      sudo: required
+      language: python
+      python: 3.5
+    - os: linux
+      dist: trusty
+      sudo: required
+      language: python
+      python: 3.6
+
+    # To maximise compatibility pick earliest image, OS X 10.10 Yosemite
+    - os: osx
+      osx_image: xcode7.3
+      sudo: required
+      language: generic
+      python: 3.6
+
+before_install:
+  # OS and default Python info
+  - uname -a
+  - if [ "$TRAVIS_OS_NAME" = "osx" ]; then sw_vers; fi
+  # Python 3 installation required
+  - if [ "$TRAVIS_OS_NAME" = "osx" ]; then bash package/install_osx.sh; fi
+  - if [ "$TRAVIS_OS_NAME" = "osx" ]; then pyenv install 3.6.5; fi
+  - if [ "$TRAVIS_OS_NAME" = "osx" ]; then pyenv versions; fi
+  - if [ "$TRAVIS_OS_NAME" = "osx" ]; then pyenv global 3.6.5; fi
+  - if [ "$TRAVIS_OS_NAME" = "osx" ]; then eval "$(pyenv init -)"; fi
+  - pip install --upgrade pip
+  # Check everything was correctly installed
+  - echo $PATH
+  - python --version
+  - python -c "import struct; print(struct.calcsize('P') * 8)"
+  - python -c "import sys; print(sys.executable)"
+  - python -m pip --version
+  - pip --version
+  - if [ "$TRAVIS_OS_NAME" = "linux" ]; then virtualenv venv --python=python3; fi
+  - if [ "$TRAVIS_OS_NAME" = "linux" ]; then source venv/bin/activate; fi
+
+install:
+  # Install Mu dependencies
+  - pip install -r requirements.txt
+  # Install packager for OSX
+  - pip install briefcase
+  # Install disk image maker for OSX
+  - pip install dmgbuild 
+  # Install helpful pytest plug-in
+  - pip install pytest-faulthandler
+  # Check everything was correctly installed
+  - pip freeze
+
+script:
+  # Run the tests
+  - if [ "$TRAVIS_OS_NAME" = "osx" ]; then make check; fi
+  # PyQt crashes without a frame buffer, so Linux needs "X Virtual Framebuffer"
+  - if [ "$TRAVIS_OS_NAME" = "linux" ]; then xvfb-run make check; fi
+  - make clean
+
+  # Package it for OSX
+  #- if [ "$TRAVIS_OS_NAME" = "osx" ]; then echo "[install]" >> setup.cfg; echo "prefix=" >> setup.cfg; fi
+  #- if [ "$TRAVIS_OS_NAME" = "osx" ]; then sudo mkdir -p /lib/python3.6/site-packages/; fi
+  - if [ "$TRAVIS_OS_NAME" = "osx" ]; then python setup.py macos --support-pkg=https://github.com/mu-editor/mu_portable_python_macos/releases/download/0.0.5/python3-reduced.tar.gz; fi
+  - if [ "$TRAVIS_OS_NAME" = "osx" ]; then mkdir dist; fi
+  - if [ "$TRAVIS_OS_NAME" = "osx" ]; then zip -r -X dist/mu-editor.zip macOS/mu-editor.app; fi
+  - if [ "$TRAVIS_OS_NAME" = "osx" ]; then du -sk dist/; fi
+  - if [ "$TRAVIS_OS_NAME" = "osx" ]; then mv dist/mu-editor.zip dist/mu-editor_$(date '+%Y-%m-%d_%H_%M')_${TRAVIS_BRANCH}_${TRAVIS_COMMIT:0:7}.zip; fi
+
+# Deploy the build version in an S3 bucket
+deploy:
+  provider: s3
+  access_key_id: AKIAJYJV7NN6HVHCX5NQ
+  secret_access_key:
+    secure: QHLfRUdFQX+TejhRBkgNvySkaQOskXji+iduIvKRtzvvhyr3QJHKcMNtO426GRFyKhz6sK3shqn4d5iu/m03gtbv+u1pL9pp0J2GEePzQVP8v24q9Y3oxaXaA7Tm7L2vSIrB7uhJvG5D9H0bVL9my61JvXhvySH47jLvhqHH4F9LdPzby1DXds1Z+R4YNMKE0Z4KmNOhiBHkmKdDcp61fZ91gGiScFIjaXvDb50zdGKjXTQy2t4OtFt4kVbTZWijzxKPCSLZkErfcdNNrCNeMEktk6IEV2KVru9XhDNzzslWwwsR1r2hQI39oVULa3fYXK6W7am8WXVZ6cnJB+yBsNWro3Tp5oiNCWSe6fKDEp+Io+qyhZ+R5PSdzhyRYPUHPCIY/fP/dap/4M/MAO3hZFA3mxjK/vUOc6mtMD/wTE659K4/i7PNYtKFndXXpLpYHHaTis44NLZFIxvs9wWG/ljToYDDK20vG317k5TZUZB/6EipW1DeoO/9qBUxgTdfJypp58kcZNvntUVa4ezf/Bx01ZCMFAk234l7+xAFYI7+m9ITqAPlKWI230Ki5ShzyV+kYcI/GS9cT75iok6+zIWWfyQhKUMDYZ1qb/UDM5Gz9RXoIah0UJTjFd4b3bO6Awdrs2V5Vv2EgMWuKDaHs1s3uONH+PGTluROuqFju/s=
+  bucket: mu-builds
+  region: eu-west-2
+  skip_cleanup: true
+  local-dir: dist/
+  upload-dir: $TRAVIS_OS_NAME
+  acl: public_read
+  on:
+    repo: mu-editor/mu
+    branch: [master]
+    condition: $TRAVIS_OS_NAME = "osx"
+
+notifications:
+  email:
+    on_success: change
+    on_failure: change

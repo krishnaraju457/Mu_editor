@@ -1,0 +1,2 @@
+[run]
+omit = mu/contrib/*, mu/mu-debug.py, mu/__main__.py
